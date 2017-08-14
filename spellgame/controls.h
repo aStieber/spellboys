@@ -5,10 +5,11 @@
 class controls {
 public:
 	controls();
-	std::vector<sf::Keyboard::Key> mKeys;
-	sf::Vector2i mMousePixelPos;
-	bool mLMB;
-	bool mRMB;
+	controls(sf::Vector2f _mousePos);
+	std::vector<sf::Keyboard::Key> Keys;
+	bool LMB;
+	bool RMB;
+	sf::Vector2f MouseMeterPos;
 private:
 	void clearVars();
 };

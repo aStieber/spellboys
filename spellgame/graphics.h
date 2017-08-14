@@ -28,10 +28,14 @@ private:
     sf::RenderWindow* mMasterWindow;
     sf::RenderTexture mHeroRenderTexture;
     sf::RenderTexture mBackgroundRenderTexture;
+	sf::RenderTexture mSpellRenderTexture;
+
     sf::Vector2f mGameRenderOffsetFromMaster;
 
 	void updateHeroRenderTexture();
-	sf::CircleShape getBall();
+	sf::CircleShape getBall(float rad);
+
+	void updateSpellRenderTexture();
 
 
 	sf::Vector2f metersToPixels(sf::Vector2f _meterPos);

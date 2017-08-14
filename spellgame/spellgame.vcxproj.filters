@@ -48,9 +48,6 @@
     <ClInclude Include="spell.h">
       <Filter>Header Files\Casting</Filter>
     </ClInclude>
-    <ClInclude Include="event.h">
-      <Filter>Header Files\Casting</Filter>
-    </ClInclude>
     <ClInclude Include="effect.h">
       <Filter>Header Files\Casting</Filter>
     </ClInclude>
@@ -78,9 +75,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="spell.cpp">
-      <Filter>Source Files\casting</Filter>
-    </ClCompile>
-    <ClCompile Include="event.cpp">
       <Filter>Source Files\casting</Filter>
     </ClCompile>
     <ClCompile Include="effect.cpp">

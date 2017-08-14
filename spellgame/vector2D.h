@@ -13,6 +13,14 @@ public:
 	vector2D operator+= (const vector2D& vec);
 	vector2D operator- (const vector2D& vec);
 	vector2D operator-= (const vector2D& vec);
+	bool operator> (vector2D& vec);
+	bool operator>= (vector2D& vec);
+	bool operator< (vector2D& vec);
+	bool operator<= (vector2D& vec);
+	bool operator> (float& mag);
+	bool operator>= (float& mag);
+	bool operator< (float& mag);
+	bool operator<= (float& mag);
 private:
 
 

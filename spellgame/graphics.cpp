@@ -11,6 +11,7 @@ graphics::graphics(game* _game, sf::RenderWindow* _rW) {
     mGame = _game;
 
 	mHeroRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
+	mSpellRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
     mBackgroundRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
     mBackgroundRenderTexture.clear(sf::Color(160, 200, 220));
 
@@ -28,7 +29,7 @@ void graphics::runGraphicsLoop() {
         gameTimeAcc += t;
         windowRefreshTimeAcc += t;
         while (gameTimeAcc >= gameInterval) {
-			controls c = controls();
+			controls c = controls(pixelsToMeters((sf::Vector2f)sf::Mouse::getPosition(*mMasterWindow) - mGameRenderOffsetFromMaster));
 			mGame->runPhysicsFrame(c);
 
 			sf::Event event;
@@ -55,6 +56,11 @@ void graphics::updateWindow(sf::Time& windowRefreshTimeAcc) {
 	sf::Sprite heroTextureSprite(mHeroRenderTexture.getTexture());
 	heroTextureSprite.setPosition(mGameRenderOffsetFromMaster);
 	mMasterWindow->draw(heroTextureSprite);
+	//SPELLS
+	updateSpellRenderTexture();
+	sf::Sprite spellTextureSprite(mSpellRenderTexture.getTexture());
+	spellTextureSprite.setPosition(mGameRenderOffsetFromMaster);
+	mMasterWindow->draw(spellTextureSprite);
 
     mMasterWindow->display();
     windowRefreshTimeAcc -= windowRefreshInterval;
@@ -74,12 +80,12 @@ sf::Vector2f graphics::pixelsToMeters(sf::Vector2f _pixelPos) {
 	return(sf::Vector2f(_pixelPos.x * x_ratio, _pixelPos.y * y_ratio));
 }
 
-sf::CircleShape graphics::getBall() {
+sf::CircleShape graphics::getBall(float rad) {
 	sf::CircleShape circle;
-	circle.setRadius(10);
+	circle.setRadius(rad);
 	circle.setOutlineThickness(10 / -8);
 	circle.setOutlineColor(sf::Color(12, 12, 12));
-	sf::Vector2f center(5, 5);
+	sf::Vector2f center(rad / 2, rad / 2);
 	circle.setOrigin(center);
 
 	return(circle);
@@ -88,10 +94,24 @@ sf::CircleShape graphics::getBall() {
 void graphics::updateHeroRenderTexture() {
 	mHeroRenderTexture.clear(sf::Color::Transparent);
 
-	sf::CircleShape heroShape = getBall();
-	heroShape.setFillColor(sf::Color(255, mGame->hero.health * 2.55, 150));
-	heroShape.setPosition(metersToPixels(mGame->hero.location));
+	sf::CircleShape heroShape = getBall(10);
+	heroShape.setFillColor(sf::Color(255, mGame->theBoy.health * 2.55, 150));
+	heroShape.setPosition(metersToPixels(mGame->theBoy.location));
 	mHeroRenderTexture.draw(heroShape);
 
 	mHeroRenderTexture.display();
+}
+
+void graphics::updateSpellRenderTexture() {
+	mSpellRenderTexture.clear(sf::Color::Transparent);
+	sf::CircleShape shape = getBall(14);
+	for (spell& s : mGame->activeSpells) {
+		shape.setPosition(metersToPixels(s.getPosition()));
+		shape.setFillColor(sf::Color::Red);
+		shape.setRadius(12);
+		shape.setOrigin(12, 12);
+		mSpellRenderTexture.draw(shape);
+	}
+
+	mSpellRenderTexture.display();
 }

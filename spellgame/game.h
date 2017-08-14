@@ -3,6 +3,7 @@
 #include <SFML\Graphics.hpp>
 #include "controls.h"
 #include "boy.h"
+#include "spell.h"
 
 
 class game {
@@ -12,9 +13,15 @@ public:
     const float mBOARD_HEIGHT = 75;
     bool runPhysicsFrame(controls c);
     void reset();
-	boy hero;
+	boy theBoy;
+	std::vector<boy> boys;
+	std::vector<spell> activeSpells;
+
 
 private:
+	bool LMB_clicked = false;
+	bool RMB_clicked = false;
+
 
     float getDistanceBetweenPoints(sf::Vector2f _a, sf::Vector2f _b);
 };

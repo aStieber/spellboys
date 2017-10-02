@@ -13,11 +13,6 @@ game::game() {
     reset();
 }
 
-float game::getDistanceBetweenPoints(sf::Vector2f _a, sf::Vector2f _b) {
-    return(sqrtf((_a.x - _b.x) * (_a.x - _b.x) + (_a.y - _b.y) * (_a.y - _b.y))); //pythagorean
-}
-
-
 bool game::runPhysicsFrame(controls c) {
 	//theBoy movement
 	theBoy.applyMovement(c.Keys);
@@ -33,7 +28,6 @@ bool game::runPhysicsFrame(controls c) {
 	else LMB_clicked = false;
 	if (c.RMB) {
 		if (!RMB_clicked) {
-			//activeSpells.emplace_back(theBoy.castSelectedSpell(c.MouseMeterPos));
 			RMB_clicked = true;
 		}
 	}

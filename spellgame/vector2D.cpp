@@ -2,13 +2,20 @@
 #include "vector2D.h"
 #include <math.h>
 
-vector2D::vector2D() {
-
-}
+vector2D::vector2D() {}
 
 vector2D::vector2D(float _x, float _y) {
 	x = _x;
 	y = _y;
+}
+
+vector2D::vector2D(sf::Vector2f source, sf::Vector2f target, float magnitude) {
+	float x_0 = target.x - source.x;
+	float y_0 = target.y - source.y;
+
+	float theta = atan2f(y_0, x_0);
+	x = magnitude * cosf(theta);
+	y = magnitude * sinf(theta);
 }
 
 float vector2D::getMagnitude() {

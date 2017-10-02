@@ -282,7 +282,7 @@ public:
     /// Use getFillColor() or getOutlineColor() instead.
     ///
     ////////////////////////////////////////////////////////////
-    SFML_DEPRECATED const Color& getColor() const;
+    SFML_DEPRECATED const Color& getDamage() const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Get the fill color of the text

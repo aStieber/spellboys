@@ -3,9 +3,15 @@
 #include <string>
 #include "game.h"
 #include "controls.h"
+#ifdef _DEBUG
+#include "include\IMGUI\imgui.h"
+#include "include\IMGUI\imgui-events-SFML.h"
+#include "include\IMGUI\imgui-rendering-SFML.h"
+#endif //_DEBUG
 
-#define DEBUG 1
-
+const static std::map<damageType, sf::Color> DAMAGE_COLOR_MAP = {	{damageType::Fire, sf::Color::Red},
+																	{damageType::Ice, sf::Color::Cyan},
+																	{damageType::Poison, sf::Color(153, 51, 255)} }; //purple
 class graphics {
 public:
     graphics();
@@ -36,8 +42,7 @@ private:
 	sf::CircleShape getBall(float rad);
 
 	void updateSpellRenderTexture();
-
-
+	sf::Shape* resizeShapeForGraphics(sf::Shape* shape);
 	sf::Vector2f metersToPixels(sf::Vector2f _meterPos);
 	sf::Vector2f pixelsToMeters(sf::Vector2f _pixelPos);
     void updateWindow(sf::Time& windowRefreshTimeAcc);

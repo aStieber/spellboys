@@ -5,30 +5,37 @@
 graphics::graphics() {}
 
 graphics::graphics(game* _game, sf::RenderWindow* _rW) {
-    mMasterWindow = _rW;
-    mMasterWindow->create(sf::VideoMode(mMasterWindowWidth, mMasterWindowHeight), "make the bubbles gone", sf::Style::Close);
-    mGameRenderOffsetFromMaster = sf::Vector2f((mMasterWindowWidth - mGameWindowWidth) / 2, (mMasterWindowHeight - mGameWindowHeight) / 2);
-    mGame = _game;
+	mMasterWindow = _rW;
+	mMasterWindow->create(sf::VideoMode(mMasterWindowWidth, mMasterWindowHeight), "make the bubbles gone", sf::Style::Close);
+	mGameRenderOffsetFromMaster = sf::Vector2f((mMasterWindowWidth - mGameWindowWidth) / 2, (mMasterWindowHeight - mGameWindowHeight) / 2);
+	mGame = _game;
 
 	mHeroRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
 	mSpellRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
-    mBackgroundRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
-    mBackgroundRenderTexture.clear(sf::Color(160, 200, 220));
+	mBackgroundRenderTexture.create(mGameWindowWidth, mGameWindowHeight);
+	mBackgroundRenderTexture.clear(sf::Color(160, 200, 220));
 
-    mFont.loadFromFile("Inconsolata-Regular.ttf");
+	mFont.loadFromFile("Inconsolata-Regular.ttf");
+
+#ifdef _DEBUG //debug gui setup
+	ImGui::SFML::SetRenderTarget(*mMasterWindow);
+	ImGui::SFML::InitImGuiRendering();
+	ImGui::SFML::SetWindow(*mMasterWindow);
+	ImGui::SFML::InitImGuiEvents();
+#endif // DEBUG	
 }
 
 void graphics::runGraphicsLoop() {
-    sf::Clock clock;
-    sf::Time gameTimeAcc;
-    sf::Time windowRefreshTimeAcc;
-    bool justReset = false;
+	sf::Clock clock;
+	sf::Time gameTimeAcc;
+	sf::Time windowRefreshTimeAcc;
+	bool justReset = false;
 
-    while (true) {
-        sf::Time t = clock.restart();
-        gameTimeAcc += t;
-        windowRefreshTimeAcc += t;
-        while (gameTimeAcc >= gameInterval) {
+	while (true) {
+		sf::Time t = clock.restart();
+		gameTimeAcc += t;
+		windowRefreshTimeAcc += t;
+		while (gameTimeAcc >= gameInterval) {
 			controls c = controls(pixelsToMeters((sf::Vector2f)sf::Mouse::getPosition(*mMasterWindow) - mGameRenderOffsetFromMaster));
 			mGame->runPhysicsFrame(c);
 
@@ -36,21 +43,32 @@ void graphics::runGraphicsLoop() {
 			while (mMasterWindow->pollEvent(event)) {
 				if (event.type == sf::Event::Closed) { mMasterWindow->close(); exit(0); }
 			}
-            gameTimeAcc -= gameInterval;
-        }
-        if (windowRefreshTimeAcc >= windowRefreshInterval) { 
+			gameTimeAcc -= gameInterval;
+#ifdef _DEBUG
+			ImGui::SFML::ProcessEvent(event);
+			ImGuiIO &io = ImGui::GetIO();
+			bool tmp = true;
+			ImGui::NewFrame();
+			ImGui::Begin("window", &tmp);
+			ImGui::Text("Hello, world!");
+			ImGui::Button("Is this working?!");
+			ImGui::End();
+			ImGui::Render();
+#endif
+		}
+		if (windowRefreshTimeAcc >= windowRefreshInterval) { 
 			updateWindow(windowRefreshTimeAcc); 
 		}
-    }
+	}
 
 }
 
 void graphics::updateWindow(sf::Time& windowRefreshTimeAcc) {
-    mMasterWindow->clear(sf::Color(20, 20, 20));
+	mMasterWindow->clear(sf::Color(20, 20, 20));
 	//BACKGROUND
-    sf::Sprite backgroundSprite(mBackgroundRenderTexture.getTexture());
-    backgroundSprite.setPosition(mGameRenderOffsetFromMaster);
-    mMasterWindow->draw(backgroundSprite);
+	sf::Sprite backgroundSprite(mBackgroundRenderTexture.getTexture());
+	backgroundSprite.setPosition(mGameRenderOffsetFromMaster);
+	mMasterWindow->draw(backgroundSprite);
 	//HERO
 	updateHeroRenderTexture();
 	sf::Sprite heroTextureSprite(mHeroRenderTexture.getTexture());
@@ -62,8 +80,14 @@ void graphics::updateWindow(sf::Time& windowRefreshTimeAcc) {
 	spellTextureSprite.setPosition(mGameRenderOffsetFromMaster);
 	mMasterWindow->draw(spellTextureSprite);
 
-    mMasterWindow->display();
-    windowRefreshTimeAcc -= windowRefreshInterval;
+	mMasterWindow->display();
+	windowRefreshTimeAcc -= windowRefreshInterval;
+}
+
+sf::Shape* graphics::resizeShapeForGraphics(sf::Shape* shape) {
+	return shape;
+	//copy abstract base class?
+	//resize and set circle at center
 }
 
 sf::Vector2f graphics::metersToPixels(sf::Vector2f _meterPos) {
@@ -104,13 +128,12 @@ void graphics::updateHeroRenderTexture() {
 
 void graphics::updateSpellRenderTexture() {
 	mSpellRenderTexture.clear(sf::Color::Transparent);
-	sf::CircleShape shape = getBall(14);
+	
 	for (spell& s : mGame->activeSpells) {
-		shape.setPosition(metersToPixels(s.getPosition()));
-		shape.setFillColor(sf::Color::Red);
-		shape.setRadius(12);
-		shape.setOrigin(12, 12);
-		mSpellRenderTexture.draw(shape);
+		sf::Shape* shape = resizeShapeForGraphics(s.getShape());
+		shape->setPosition(metersToPixels(s.getPosition()));
+		shape->setFillColor(DAMAGE_COLOR_MAP.find(s.getDamageType())->second);
+		mSpellRenderTexture.draw(*shape);
 	}
 
 	mSpellRenderTexture.display();

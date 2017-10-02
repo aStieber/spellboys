@@ -1,0 +1,24 @@
+﻿  boy.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\boy.h(2): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  controls.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\controls.h(3): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  damage.cpp
+  effect.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\effect.h(3): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  game.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\game.h(3): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  graphics.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\graphics.h(2): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  helpers.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\helpers.h(2): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  spell.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\spell.h(3): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  spellgame.cpp
+spellgame.cpp(3): fatal error C1083: Cannot open include file: 'SFML\Graphics.hpp': No such file or directory
+  target.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\target.h(2): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory
+  vector2D.cpp
+c:\users\andrew\desktop\_code\spellboys\spellgame\vector2D.h(2): fatal error C1083: Cannot open include file: 'SFML\System.hpp': No such file or directory

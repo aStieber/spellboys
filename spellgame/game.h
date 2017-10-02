@@ -17,12 +17,8 @@ public:
 	std::vector<boy> boys;
 	std::vector<spell> activeSpells;
 
-
 private:
 	bool LMB_clicked = false;
 	bool RMB_clicked = false;
-
-
-    float getDistanceBetweenPoints(sf::Vector2f _a, sf::Vector2f _b);
 };
 

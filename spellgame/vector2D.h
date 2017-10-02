@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML\System.hpp>
 
 class vector2D {
 public:
@@ -9,6 +10,7 @@ public:
 	void scale(float x);
 	vector2D();
 	vector2D(float _x, float _y);
+	vector2D(sf::Vector2f source, sf::Vector2f target, float magnitude);
 	vector2D operator+ (const vector2D& vec);
 	vector2D operator+= (const vector2D& vec);
 	vector2D operator- (const vector2D& vec);

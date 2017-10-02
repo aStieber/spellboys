@@ -1,6 +1,6 @@
 #pragma once
 
-enum damageType {fire, ice, poison};
+enum damageType {Fire, Ice, Poison};
 
 class damage {
 public:

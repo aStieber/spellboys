@@ -47,3 +47,7 @@ Temporary Items
 .apdisk
 
 Debug/
+*.opendb
+*.suo
+.vs/spellboys/v14/.suo
+*.suo

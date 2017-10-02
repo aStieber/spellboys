@@ -1,5 +1,5 @@
 #include "boy.h"
-
+#include "Target.h"
 
 boy::boy() {
 
@@ -62,17 +62,27 @@ spell boy::castSelectedSpell(sf::Vector2f mousePos) {
 	//selected spell is fireball
 	target t(mousePos);
 
-	spell fireball = getFireball();
-	fireball.Target = t;
+	spell fireball = getFireball(t);
 	return fireball;
 }
 
-spell boy::getFireball() {
+spell boy::getFireball(target t) {
 	spell fireball = spell();
 	effect e = effect();
-	e.Damage = damage(100, damageType::fire);
+	e.Damage = damage(100, damageType::Fire);
 	e.Shape = sf::CircleShape(5, 100);
 	e.setDuration(5.);
+	e.Location = t.Location;
+	e.movementType = effectMovementType::STATIONARY;
 	fireball.Effects.emplace_back(e);
+
+	effect m = effect();
+	m.Damage = damage(5, damageType::Fire);
+	m.Shape = sf::CircleShape(1., 100);
+	m.Location = this->location;
+	m.Target = t;
+	m.movementType = effectMovementType::LINEAR;
+	m.movementVector = vector2D(this->location, t.Location, 1.0);
+	fireball.Effects.emplace_back(m);
 	return(fireball);
 }

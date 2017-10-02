@@ -22,7 +22,7 @@ public:
 	void applyMoment(sf::Vector2i& maxSize);
 
 	spell castSelectedSpell(sf::Vector2f mousePos);
-	
+
 private:
-	spell getFireball();
+	spell getFireball(target t);
 };
